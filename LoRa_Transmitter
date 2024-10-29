@@ -1,0 +1,18 @@
+#include <SPI.h>
+#include <RF24.h>
+
+RF24 radio(9, 10);  // CE, CSN pins
+const byte address[6] = "00001";  // Address of the receiver
+
+void setup() {
+  radio.begin();
+  radio.openWritingPipe(address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening();  // Set as transmitter
+}
+
+void loop() {
+  const char text[] = "Hello";
+  radio.write(&text, sizeof(text));  // Send data
+  delay(1000);  // Send every 1 second
+}
